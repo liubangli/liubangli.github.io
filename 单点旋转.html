@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0,maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<style>
+	#div1{
+		width:200px;
+		height:200px;
+		background:red;
+		margin:50px auto;
+		font-size:40px;
+		color:#fff;
+	}
+</style>
+<script>
+	function a2d(n)
+	{
+		return n*180/Math.PI;	
+	}
+	document.addEventListener('DOMContentLoaded',function(){
+		var oDiv=document.querySelector('#div1');
+		
+		var d=0;
+		
+		document.addEventListener('touchstart',function(ev){
+			var oldD=d;
+			
+			function getD(ev){
+				var x1=oDiv.offsetLeft+oDiv.offsetWidth/2;
+				var y1=oDiv.offsetTop+oDiv.offsetHeight/2;
+				
+				var x2=ev.targetTouches[0].pageX;
+				var y2=ev.targetTouches[0].pageY;
+				
+				var x=x2-x1;
+				var y=y1-y2;
+				
+				var d=a2d(Math.atan2(y,x));
+				
+				return d;	
+			}
+			
+			var downD=getD(ev);
+			
+			document.addEventListener('touchmove',function(ev){
+				d=oldD+downD-getD(ev);
+				
+				oDiv.style.WebkitTransform='rotate('+d+'deg)';	
+			},false);
+			
+			ev.preventDefault();
+		},false)	
+	},false)
+</script>
+
+</head>
+
+<body>
+	<div id="div1"></div>
+</body>
+</html>
